@@ -7,6 +7,21 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IIS Express
+.vs/config/applicationhost.config
+
+# Local DB / tooling cache
+*.db
+*.db-shm
+*.db-wal
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
