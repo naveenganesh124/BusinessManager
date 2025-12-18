@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BusinessManager.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace BusinessManager.Infrastructure.Data
 {
@@ -13,6 +15,8 @@ namespace BusinessManager.Infrastructure.Data
             : base(options)
         {
         }
+
+        public DbSet<Product> Products { get; set; }
 
     }
 }
