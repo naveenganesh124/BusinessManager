@@ -15,11 +15,50 @@ namespace BusinessManager.API.Controllers
             _productService = productService;
         }
 
+        // GET ALL
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
-            return Ok(products);
+            return Ok(ApiResponse<object>.Ok(products, "Products fetched successfully"));
+        }
+
+        // ADD
+        [HttpPost]
+        public async Task<IActionResult> AddProduct([FromBody] CreateProductDto dto)
+        {
+            await _productService.AddProductAsync(dto);
+            return Ok(ApiResponse<object>.Ok("Product added successfully"));
+        }
+
+        // UPDATE
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto dto)
+        {
+            var updated = await _productService.UpdateProductAsync(dto);
+            if (!updated)
+            {
+                return NotFound(
+                    ApiResponse<object>.Fail("Product not found")
+                );
+            }
+
+            return Ok(ApiResponse<object>.Ok("Product updated successfully"));
+        }
+
+        // DELETE
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteProduct([FromBody] DeleteProductDto dto)
+        {
+            var deleted = await _productService.DeleteProductAsync(dto);
+            if (!deleted)
+            {
+                return NotFound(
+                    ApiResponse<object>.Fail("Product not found")
+                );
+            }
+
+            return Ok(ApiResponse<object>.Ok("Product deleted successfully"));
         }
 
         [HttpPost]
