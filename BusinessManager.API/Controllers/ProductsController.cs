@@ -1,10 +1,13 @@
 ﻿using BusinessManager.Application.DTOs;
 using BusinessManager.Application.Interfaces;
-using Microsoft.AspNetCore.Http;
+using BusinessManager.Application.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessManager.API.Controllers
 {
+    
+
     [Route("api/products")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -16,6 +19,7 @@ namespace BusinessManager.API.Controllers
         }
 
         // GET ALL
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
@@ -24,6 +28,7 @@ namespace BusinessManager.API.Controllers
         }
 
         // ADD
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromBody] CreateProductDto dto)
         {
@@ -32,6 +37,7 @@ namespace BusinessManager.API.Controllers
         }
 
         // UPDATE
+        [Authorize]
         [HttpPost("update")]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto dto)
         {
@@ -47,6 +53,7 @@ namespace BusinessManager.API.Controllers
         }
 
         // DELETE
+        [Authorize]
         [HttpPost("delete")]
         public async Task<IActionResult> DeleteProduct([FromBody] DeleteProductDto dto)
         {
@@ -61,31 +68,6 @@ namespace BusinessManager.API.Controllers
             return Ok(ApiResponse<object>.Ok("Product deleted successfully"));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddProduct([FromBody] CreateProductDto dto)
-        {
-            await _productService.AddProductAsync(dto);
-            return Ok("Product added successfully");
-        }
-
-        [HttpPost("update")]
-        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto dto)
-        {
-            var updated = await _productService.UpdateProductAsync(dto);
-            if (!updated)
-                return NotFound("Product not found");
-
-            return Ok("Product updated successfully");
-        }
-
-        [HttpPost("delete")]
-        public async Task<IActionResult> DeleteProduct([FromBody] DeleteProductDto dto)
-        {
-            var deleted = await _productService.DeleteProductAsync(dto);
-            if (!deleted)
-                return NotFound("Product not found");
-
-            return Ok("Product deleted successfully");
-        }
+       
     }
 }
